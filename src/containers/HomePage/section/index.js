@@ -1,0 +1,5 @@
+export { default as Specialty } from "./Specialty"
+export { default as MedicalFacility } from "./MedicalFacility"
+export { default as OutstandingDoctor } from "./OutstandingDoctor"
+export { default as Handbook } from "./Handbook"
+export { default as About } from "./About"
