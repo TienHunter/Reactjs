@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./UserManage.scss";
 import {
@@ -151,7 +150,7 @@ class UserManage extends Component {
               {arrUsers &&
                 arrUsers.map((item, index) => {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{item.email}</td>
                       <td>{item.firstName}</td>
                       <td>{item.lastName}</td>

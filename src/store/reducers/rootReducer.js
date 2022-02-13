@@ -14,11 +14,6 @@ const persistCommonConfig = {
   stateReconciler: autoMergeLevel2,
 };
 
-// const adminPersistConfig = {
-//   ...persistCommonConfig,
-//   key: "admin",
-//   whitelist: ["isLoggedIn", "adminInfo"],
-// };
 const userPersistConfig = {
   ...persistCommonConfig,
   key: "user",
@@ -34,4 +29,5 @@ export default (history) =>
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
     app: persistReducer(appPersistConfig, appReducer),
+    admin: adminReducer
   });

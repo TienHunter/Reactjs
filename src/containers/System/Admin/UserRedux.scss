@@ -1,0 +1,22 @@
+.previewImg-container {
+  .lable-upload {
+    background-color: #bebebe;
+    color: #3c3c3c;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .prevImg {
+    margin-top: 10px;
+    border: 1px solid #6b6b6b;
+    height: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+  }
+}

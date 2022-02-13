@@ -22,11 +22,11 @@ class Header extends Component {
           <Navigator menus={adminMenu} />
         </div>
         <div className="language">
-          <spam className="welcome">
+          <span className="welcome">
             <FormattedMessage id="homeHeader.welcome" />
             {', '}
             {userInfo && userInfo.firstName ? userInfo.firstName : ""}
-          </spam>
+          </span>
           <span
             className={language === LANGUAGES.VI ? "language-vi active" : "language-vi"}
             onClick={() => this.changeLanguage(LANGUAGES.VI)}
