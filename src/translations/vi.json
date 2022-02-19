@@ -42,6 +42,7 @@
     },
     "manage-user":{
         "add":"Thêm mới người dùng",
+        "edit":"Sửa đổi người dùng",
         "email":"Tài khoản",
         "password":"Mật khẩu",
         "firstname":"Tên",
@@ -53,7 +54,12 @@
         "roleID":"Vai trò",
         "image":"Ảnh",
         "prevViewImg": "Tải ảnh",
-        "save":"Lưu user"
+        "save":"Lưu user",
+        "update":"Lưu thay đổi"
+    },
+    "homepage":{
+        "more-infor":"Xem thêm",
+        "outstanding-doctor":"Bác sĩ nổi bật tuần qua"
     }
 
 }

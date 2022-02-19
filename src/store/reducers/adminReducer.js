@@ -6,7 +6,9 @@ const initialState = {
     isLoadingRole: false,
     genders: [],
     roles: [],
-    positions: []
+    positions: [],
+    users: [],
+    topDoctors: []
 }
 
 const appReducer = (state = initialState, action) => {
@@ -63,6 +65,24 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
             }
+        case actionTypes.FETCH_ALL_USERS_SUCCESS:
+            state.users = action.users;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_USERS_FAILED:
+            state.users = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_TOP_DOCCTOR_SUCCESS:
+            state.topDoctors = action.doctors;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_TOP_DOCCTOR_FAILED:
+            state.topDoctors = [];
+            return { ...state }
         default:
             return state;
     }

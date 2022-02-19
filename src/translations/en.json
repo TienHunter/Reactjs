@@ -6,7 +6,7 @@
         "find-clinic":"Find clinic",
         "doctor":"Doctor",
         "choose-doctor":"Choose doctor",
-        "package":"examination package",
+        "package":"Examination package",
         "check-general":"general examination",
         "support":"Support",
         "welcome": "Welcome"
@@ -15,7 +15,7 @@
     },
 
     "banner":{
-        "title-1":"Medical Background",
+        "title-1":"Medical Plastform",
         "title-2":"COMPREHENSIVE HEALTH CARE",
 
         "child-1":"Specialist examination",
@@ -45,6 +45,7 @@
     },
     "manage-user":{
         "add":"Add new user",
+        "edit":"Edit the user",
         "email":"Email",
         "password":"Password",
         "firstname":"First name",
@@ -56,7 +57,12 @@
         "roleID":"RoleID",
         "image":"Image",
         "prevViewImg": "Upload image",
-        "save":"Save"
+        "save":"Save",
+        "update":"Update"
+    },
+    "homepage":{
+        "more-infor":"More infor",
+        "outstanding-doctor":"Last week's outstanding dotor"
     }
 
 }

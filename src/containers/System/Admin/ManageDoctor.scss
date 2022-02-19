@@ -1,0 +1,28 @@
+.manage-doctor-contanier {
+  padding: 5px;
+  .manage-doctor-title {
+    text-align: center;
+    margin: 16px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .more-infor {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    .content-left {
+      width: 40%;
+    }
+    .content-right {
+      flex: 1;
+    }
+    label {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+  }
+  .save-content-doctor {
+    margin: 15px;
+  }
+}
