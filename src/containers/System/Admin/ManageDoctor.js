@@ -4,16 +4,12 @@ import * as actions from '../../../store/actions'
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import Select from 'react-select';
-
+import { LANGUAGES } from '../../../utils'
 import 'react-markdown-editor-lite/lib/index.css';
 import './ManageDoctor.scss'
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
-const options = [
-   { value: 'chocolate', label: 'Chocolate' },
-   { value: 'strawberry', label: 'Strawberry' },
-   { value: 'vanilla', label: 'Vanilla' },
-];
+
 class TableManageUsers extends Component {
    constructor(props) {
       super(props);
@@ -21,15 +17,44 @@ class TableManageUsers extends Component {
          contentHTML: '',
          contentMarkdown: '',
          selectedOption: '',
-         description: ''
+         description: '',
+         arrDoctors: []
       };
    }
 
    async componentDidMount() {
+      this.props.fetchAllDoctors()
    }
+   buildDataSelect = (data) => {
+      let results = [];
+      let { language } = this.props;
+      if (data && data.length > 0) {
+         data.map((item, index) => {
+            let object = {};
+            let labelVi = `${item.lastName} ${item.firstName}`;
+            let labelEn = `${item.firstName} ${item.lastName}`;
 
+            object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+            object.value = item.id
+
+            results.push(object)
+         })
+      }
+      return results;
+   }
    componentDidUpdate(prevProps, prevState, snapshot) {
-
+      if (prevProps.allDoctors !== this.props.allDoctors) {
+         let dataSelect = this.buildDataSelect(this.props.allDoctors)
+         this.setState({
+            arrDoctors: dataSelect
+         })
+      }
+      if (prevProps.language !== this.props.language) {
+         let dataSelect = this.buildDataSelect(this.props.allDoctors)
+         this.setState({
+            arrDoctors: dataSelect
+         })
+      }
    }
    handleEditorChange = ({ html, text }) => {
       this.setState({
@@ -38,10 +63,17 @@ class TableManageUsers extends Component {
       })
    }
    handleSaveMarkdown = () => {
-      console.log('hoidanit check state: ', this.state);
+      let { contentHTML, contentMarkdown, description, selectedOption } = this.state;
+      console.log(this.state);
+      this.props.createDetailDoctor({
+         contentHTML: contentHTML,
+         contentMarkdown: contentMarkdown,
+         description: description,
+         doctorId: selectedOption.value
+      })
    }
    handleChange = (selectedOption) => {
-      this.setState({ selectedOption });
+      this.setState({ selectedOption }, () => console.log(selectedOption));
    };
    handleOnchangeDesc = (event) => {
       this.setState({
@@ -49,7 +81,7 @@ class TableManageUsers extends Component {
       })
    }
    render() {
-      let { selectedOption, description } = this.state;
+      let { selectedOption, description, arrDoctors } = this.state;
       return (
          <div className="manage-doctor-contanier contanier">
             <div className="manage-doctor-title">
@@ -61,7 +93,7 @@ class TableManageUsers extends Component {
                   <Select
                      value={selectedOption}
                      onChange={this.handleChange}
-                     options={options}
+                     options={arrDoctors}
                   />
                </div>
                <div className="content-right form-group">
@@ -94,13 +126,15 @@ class TableManageUsers extends Component {
 
 const mapStateToProps = (state) => {
    return {
-
+      allDoctors: state.admin.allDoctors,
+      language: state.app.language
    };
 };
 
 const mapDispatchToProps = (dispatch) => {
    return {
-
+      fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+      createDetailDoctor: (data) => dispatch(actions.createDetailDoctor(data))
    };
 };
 

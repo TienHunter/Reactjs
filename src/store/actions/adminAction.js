@@ -7,7 +7,9 @@ import {
    getAllUsers,
    deleteUserService,
    editUserService,
-   getTopDoctorHomeService
+   getTopDoctorHomeService,
+   getAllDoctorsService,
+   createDetailDoctorService
 } from '../../services/userService';
 export const fetchGenderStart = () => {
    return async (dispatch, getState) => {
@@ -188,7 +190,7 @@ export const updateUserSuccess = () => ({
 export const updateUserFailed = () => ({
    type: actionTypes.UPDATE_USER_FAILED,
 });
-
+// top doctor
 export const fetchTopDoctor = () => {
    return async (dispatch, getState) => {
       try {
@@ -211,3 +213,51 @@ export const fetchTopDoctorFailed = () => ({
    type: actionTypes.FETCH_TOP_DOCCTOR_FAILED
 });
 
+export const fetchAllDoctors = () => {
+   return async (dispatch, getState) => {
+      try {
+         let res = await getAllDoctorsService();
+         if (res && res.errCode === 0) {
+            dispatch(fetchAllDoctorsSuccess(res.data))
+         } else {
+            toast.error('fetch all doctors failed')
+            dispatch(fetchAllDoctorsFailed())
+         }
+      } catch (e) {
+         toast.error('fetch all doctors failed')
+         dispatch(fetchAllDoctorsFailed())
+      }
+   }
+};
+export const fetchAllDoctorsSuccess = (data) => ({
+   type: actionTypes.FETCH_ALL_DOCCTOS_SUCCESS,
+   doctors: data
+});
+export const fetchAllDoctorsFailed = () => ({
+   type: actionTypes.FETCH_ALL_DOCCTOS_FAILED
+});
+
+// làm rút gọn
+
+export const createDetailDoctor = (data) => {
+   return async (dispatch, getState) => {
+      try {
+         let res = await createDetailDoctorService(data);
+         if (res && res.errCode === 0) {
+            dispatch({
+               type: actionTypes.CREATE_DETAIL_DOCTOR_SUCCESS
+            })
+         } else {
+            toast.error('create detail doctors failed')
+            dispatch({
+               type: actionTypes.CREATE_DETAIL_DOCTOR_FAILED
+            })
+         }
+      } catch (e) {
+         toast.error('create detail doctors failed')
+         dispatch({
+            type: actionTypes.CREATE_DETAIL_DOCTOR_FAILED
+         })
+      }
+   }
+};
