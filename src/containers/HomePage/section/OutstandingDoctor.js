@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Slider from "react-slick";
 import { FormattedMessage } from 'react-intl'
+import { withRouter } from 'react-router'
 import { LANGUAGES } from '../../../utils'
 import * as actions from '../../../store/actions'
 
@@ -23,7 +24,9 @@ class OutstandingDoctor extends Component {
          })
       }
    }
-
+   handleViewDetailDoctor = (doctor) => {
+      this.props.history.push(`/detail-doctor/${doctor.id}`)
+   }
    render() {
       let { arrDoctors } = this.state;
       let { language } = this.props;
@@ -49,7 +52,7 @@ class OutstandingDoctor extends Component {
                         let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`
 
                         return (
-                           <div className='section-customize' key={index}>
+                           <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
                               <div className="customize-border">
                                  <div className="bg-image section-outstanding-doctor"
                                     style={{ backgroundImage: `url(${imageBase64})` }}
@@ -84,4 +87,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor); // cho redux hiểu để kết nối react với redux ??
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor)); // cho redux hiểu để kết nối react với redux ??

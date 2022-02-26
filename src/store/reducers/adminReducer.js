@@ -9,7 +9,8 @@ const initialState = {
     positions: [],
     users: [],
     topDoctors: [],
-    allDoctors: []
+    allDoctors: [],
+    createInforDoctor: false
 }
 
 const appReducer = (state = initialState, action) => {
@@ -89,6 +90,12 @@ const appReducer = (state = initialState, action) => {
             return { ...state }
         case actionTypes.FETCH_ALL_DOCCTOS_FAILED:
             state.allDoctors = [];
+            return { ...state }
+        case actionTypes.CREATE_DETAIL_DOCTOR_SUCCESS:
+            state.createInforDoctor = true;
+            return { ...state }
+        case actionTypes.CREATE_DETAIL_DOCTOR_FAILED:
+            state.createInforDoctor = false;
             return { ...state }
         default:
             return state;

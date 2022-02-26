@@ -1,0 +1,35 @@
+.doctor-detail-container {
+  .intro-doctor {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    .content-left {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .content-right {
+      .header {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .description {
+        padding-top: 10px;
+      }
+    }
+  }
+  .schedule-doctor {
+  }
+  .detail-infor-doctor {
+    background-color: #efefef;
+    padding: 20px 0;
+  }
+  .comment-doctor {
+  }
+  .line-bottom {
+    border-bottom: 1px solid #ccc;
+  }
+}

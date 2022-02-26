@@ -9,7 +9,7 @@ import {
    editUserService,
    getTopDoctorHomeService,
    getAllDoctorsService,
-   createDetailDoctorService
+   saveDetailDoctorService
 } from '../../services/userService';
 export const fetchGenderStart = () => {
    return async (dispatch, getState) => {
@@ -242,8 +242,9 @@ export const fetchAllDoctorsFailed = () => ({
 export const createDetailDoctor = (data) => {
    return async (dispatch, getState) => {
       try {
-         let res = await createDetailDoctorService(data);
+         let res = await saveDetailDoctorService(data);
          if (res && res.errCode === 0) {
+            toast.success('create or update infor doctor success')
             dispatch({
                type: actionTypes.CREATE_DETAIL_DOCTOR_SUCCESS
             })
@@ -254,7 +255,7 @@ export const createDetailDoctor = (data) => {
             })
          }
       } catch (e) {
-         toast.error('create detail doctors failed')
+         toast.error('create detail doctors failed catch')
          dispatch({
             type: actionTypes.CREATE_DETAIL_DOCTOR_FAILED
          })
