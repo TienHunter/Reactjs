@@ -10,7 +10,8 @@ const initialState = {
     users: [],
     topDoctors: [],
     allDoctors: [],
-    createInforDoctor: false
+    createInforDoctor: false,
+    allScheduleTime: []
 }
 
 const appReducer = (state = initialState, action) => {
@@ -96,6 +97,13 @@ const appReducer = (state = initialState, action) => {
             return { ...state }
         case actionTypes.CREATE_DETAIL_DOCTOR_FAILED:
             state.createInforDoctor = false;
+            return { ...state }
+
+        case actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS:
+            state.allScheduleTime = action.dataTime;
+            return { ...state }
+        case actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED:
+            state.allScheduleTime = [];
             return { ...state }
         default:
             return state;

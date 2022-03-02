@@ -262,3 +262,30 @@ export const createDetailDoctor = (data) => {
       }
    }
 };
+
+
+export const fetchAllScheduleTime = () => {
+   return async (dispatch, getState) => {
+      try {
+         let res = await getAllcodeService('TIME');
+         if (res && res.errCode === 0) {
+            dispatch(fetchAllScheduleTimeSuccess(res.data))
+         } else {
+            toast.error('fetch all schedule time failed')
+            dispatch(fetchAllScheduleTimeFailed())
+         }
+      } catch (e) {
+         toast.error('fetch all schedule time failed')
+         dispatch(fetchAllScheduleTimeFailed())
+      }
+   }
+};
+export const fetchAllScheduleTimeSuccess = (data) => ({
+   type: actionTypes.FETCH_ALL_SCHEDULE_TIME_SUCCESS,
+   dataTime: data
+});
+export const fetchAllScheduleTimeFailed = () => ({
+   type: actionTypes.FETCH_ALL_SCHEDULE_TIME_FAILED
+});
+
+
