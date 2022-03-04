@@ -12,6 +12,20 @@
       flex-wrap: wrap;
       gap: 20px;
       margin: 40px auto;
+      .btn-manage-schedule {
+        border: 1px solid #666;
+        height: unset;
+        line-height: unset;
+        padding: 4px 12px;
+        background-color: #eee;
+
+        &:hover {
+          opacity: 0.9;
+        }
+        &.active {
+          background-color: #ffa500;
+        }
+      }
     }
   }
 }
