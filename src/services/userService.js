@@ -22,7 +22,7 @@ const editUserService = (user) => {
 };
 const getAllcodeService = (inputType) => {
    return axios.get(`/api/allcode?type=${inputType}`);
-}
+};
 const getTopDoctorHomeService = (limit) => {
    return axios.get(`/api/top-doctor-home?limit=${limit}`)
 }
@@ -34,7 +34,9 @@ const saveDetailDoctorService = (data) => {
 }
 const getDetailInforDoctorById = (id) => {
    return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
-
+}
+const postBulkScheduleDoctor = (data) => {
+   return axios.post("/api/bulk-schedule-doctor", data);
 }
 export {
    handleLoginApi,
@@ -46,5 +48,6 @@ export {
    getTopDoctorHomeService,
    getAllDoctorsService,
    saveDetailDoctorService,
-   getDetailInforDoctorById
+   getDetailInforDoctorById,
+   postBulkScheduleDoctor
 };

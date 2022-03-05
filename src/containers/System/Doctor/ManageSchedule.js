@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Select from 'react-select';
 import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+
 import { LANGUAGES, dateFormat } from "../../../utils"
 import DatePicker from '../../../components/Input/DatePicker'
 import * as actions from '../../../store/actions'
+import { postBulkScheduleDoctor } from '../../../services/userService'
 import './ManageSchedule.scss'
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import moment from 'moment';
 class ManageSchedule extends Component {
    constructor(props) {
       super(props);
@@ -104,7 +106,7 @@ class ManageSchedule extends Component {
          rangeTime: data
       })
    }
-   handleSaveSchedule = () => {
+   handleSaveSchedule = async () => {
       let { selectedOption, arrDoctors, currentDate, rangeTime } = this.state;
       let results = [];
       if (!selectedOption) {
@@ -113,8 +115,9 @@ class ManageSchedule extends Component {
       }
       if (!currentDate) {
          toast.error('Invalid select date');
+         return;
       }
-      let formateDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
+      let formateDate = new Date(currentDate).getTime()
       if (rangeTime && rangeTime.length > 0) {
          let selectSchedule = rangeTime.filter(item => item.isSelected);
          if (selectSchedule && selectSchedule.length > 0) {
@@ -122,20 +125,25 @@ class ManageSchedule extends Component {
                let object = {};
                object.doctorId = selectedOption.value;
                object.date = formateDate;
-               object.time = item.keyMap;
+               object.timeType = item.keyMap;
 
                results.push(object)
             })
          } else {
-            toast.error('Invalid selected schedule')
+            toast.warning('Invalid selected schedule')
          }
       }
-      console.log(results);
+      let res = await postBulkScheduleDoctor({
+         arrSchedule: results,
+         doctorId: selectedOption.value,
+         formateDate: formateDate
+      })
+      console.log('check res postBulkScheduleDoctor: ', res);
+      toast.success('post schedule doctor success')
    }
    render() {
       let { selectedOption, arrDoctors, rangeTime, currentDate } = this.state;
       let { language } = this.props;
-      console.log(rangeTime);
       return (
          <div className="manage-schedule-contanier">
             <div className="title"><FormattedMessage id="manage-schedule.title" /></div>
