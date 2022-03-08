@@ -139,7 +139,9 @@ class ManageSchedule extends Component {
          formateDate: formateDate
       })
       console.log('check res postBulkScheduleDoctor: ', res);
-      toast.success('post schedule doctor success')
+      if (res && res.errCode === 0) {
+         toast.success('post schedule doctor success')
+      }
    }
    render() {
       let { selectedOption, arrDoctors, rangeTime, currentDate } = this.state;
