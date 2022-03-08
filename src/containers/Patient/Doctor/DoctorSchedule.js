@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment"
 import localization from 'moment/locale/vi'
+import { FormattedMessage } from 'react-intl'
 import { LANGUAGES } from '../../../utils'
 import { getScheduleDoctorbyId } from '../../../services/userService'
 import './DoctorSchedule.scss'
@@ -16,9 +17,12 @@ class DoctorSchedule extends Component {
 
    async componentDidMount() {
       let { language } = this.props;
-      this.setArrDays(language)
+      let allDays = this.getArrDays(language)
+      this.setState({
+         allDays
+      })
    }
-   setArrDays = (language) => {
+   getArrDays = (language) => {
       let allDays = [];
       //set time cho 7 ngày liên tiếp
       for (let i = 0; i < 7; i++) {
@@ -32,16 +36,27 @@ class DoctorSchedule extends Component {
          object.value = moment(new Date()).add(i, 'days').startOf("day").valueOf();
          allDays.push(object);
       }
-      this.setState({
-         allDays
-      })
+      return allDays;
    }
    capitalizeFirstLetter = (string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
    }
-   componentDidUpdate(prevProps, prevState, snapshot) {
+   async componentDidUpdate(prevProps, prevState, snapshot) {
       if (prevProps.language !== this.props.language) {
-         this.setArrDays(this.props.language)
+         let allDays = this.getArrDays(this.props.language)
+         this.setState({
+            allDays
+         })
+      }
+      if (prevProps.doctorId !== this.props.doctorId) {
+         let { allDays } = this.state;
+         console.log('check componentDidUpdate allDays:', allDays);
+         let res = await getScheduleDoctorbyId(this.props.doctorId, allDays[0].value)
+         if (res && res.errCode === 0) {
+            this.setState({
+               allAvalableTime: res.data ? res.data : []
+            })
+         }
       }
    }
    hanleOnchangeSelect = async (event) => {
@@ -79,19 +94,34 @@ class DoctorSchedule extends Component {
                   })}
                </select>
             </div>
-            <div className="schedule-time">
-               {allAvalableTime && allAvalableTime.length > 0 ?
-                  allAvalableTime.map((item, index) => {
-                     let timeDisplay = language === LANGUAGES.VI ? item.timeData.valueVi : item.timeData.valueEn;
-                     return (
-                        <button className="btn-schedule" key={index}>{timeDisplay}</button>
-                     )
-                  })
-                  :
-                  <div>No data to display</div>
-               }
-            </div>
-         </div>
+            <div className="all-avalable-time">
+               <div className="text-calendar">
+                  <i className="fas fa-calendar-alt">
+                     <span><FormattedMessage id="patient.detail-doctor.schedule" /></span>
+                  </i>
+               </div>
+               <div className="schedule-time">
+                  {allAvalableTime && allAvalableTime.length > 0 ?
+                     <>
+                        <div className="schedule-time__select">
+                           {allAvalableTime.map((item, index) => {
+                              let timeDisplay = language === LANGUAGES.VI ? item.timeData.valueVi : item.timeData.valueEn;
+                              return (
+                                 <button className={`btn-schedule ${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}`} key={index}>{timeDisplay}</button>
+                              )
+                           })}
+                        </div>
+                        <div className="booking">
+                           <FormattedMessage id="patient.detail-doctor.choose" />
+                           <i class="fas fa-hand-point-up"></i>
+                           <FormattedMessage id="patient.detail-doctor.book-free" />
+                        </div>
+                     </>
+                     :
+                     <div className="no-schedule"><FormattedMessage id="patient.detail-doctor.no-schedule" /></div>
+                  }
+               </div></div>
+         </div >
       );
    }
 }

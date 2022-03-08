@@ -1,5 +1,6 @@
 .doctor-schedule-contanier {
-  height: 300px;
+  min-height: 150px;
+  border-right: 1px solid #ccc;
   .select-tag {
     padding: 4px;
     font-size: 16px;
@@ -9,23 +10,52 @@
     outline: none;
     color: #337ab7;
   }
-  .schedule-time {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-    .btn-schedule {
-      background-color: #fff8ae;
-      padding: 6px 12px;
-      border: none;
-      outline: none;
-      border-radius: 6px;
-      font-weight: 600;
-      color: #3c3c3c;
-      min-width: 160px;
-      &:hover {
-        color: #fff;
-        background-color: #45c3d2;
+  .all-avalable-time {
+    margin-top: 12px;
+    .text-calendar {
+      i {
+        span {
+          text-transform: uppercase;
+          padding-left: 6px;
+          letter-spacing: 1px;
+        }
+      }
+    }
+    .schedule-time {
+      .schedule-time__select {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+        .btn-schedule {
+          background-color: #fff8ae;
+          padding: 6px 12px;
+          border: none;
+          outline: none;
+          border-radius: 6px;
+          font-weight: 600;
+          color: #3c3c3c;
+          &:hover {
+            color: #fff;
+            background-color: #45c3d2;
+          }
+          &.btn-vi {
+            min-width: 120px;
+          }
+          &.btn-en {
+            min-width: 160px;
+          }
+        }
+      }
+      .no-schedule {
+        font-style: italic;
+        text-align: center;
+        margin-top: 40px;
+      }
+      .booking {
+        i {
+          padding: 0 6px;
+        }
       }
     }
   }

@@ -141,11 +141,15 @@ class ManageSchedule extends Component {
       console.log('check res postBulkScheduleDoctor: ', res);
       if (res && res.errCode === 0) {
          toast.success('post schedule doctor success')
+      } else {
+         toast.error('error update schedule of doctor')
+         console.log('error postBulkScheduleDoctor:', res);
       }
    }
    render() {
       let { selectedOption, arrDoctors, rangeTime, currentDate } = this.state;
       let { language } = this.props;
+      let yesterday = new Date(new Date().setDate(new Date().getDate() - 1))
       return (
          <div className="manage-schedule-contanier">
             <div className="title"><FormattedMessage id="manage-schedule.title" /></div>
@@ -165,7 +169,7 @@ class ManageSchedule extends Component {
                         className="form-control"
                         onChange={this.handleOnchangeDatePicker}
                         value={currentDate}
-                        minDate={new Date()}
+                        minDate={yesterday}
                      />
                   </div>
                   <div className="col-12 infor-time">
