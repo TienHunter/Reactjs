@@ -68,26 +68,21 @@ class ManageSchedule extends Component {
          })
       }
       if (prevState.arrDoctors !== this.state.arrDoctors) {
-         this.setState({
-            selectedOption: this.fixShowDoctor(this.state.selectedOption)
-         })
+         let { arrDoctors } = this.state;
+         let { selectedOption } = this.state;
+         if (selectedOption) {
+            let item = arrDoctors.find((currentValue) => {
+               return currentValue.value === selectedOption.value
+            })
+            this.setState({
+               selectedOption: item
+            })
+         }
       }
    }
    handleChangeSelect = async (selectedOption) => {
       this.setState({ selectedOption });
    };
-   fixShowDoctor = (selectedOption) => {
-      const { arrDoctors } = this.state;
-      if (selectedOption) {
-         for (let i = 0; i < arrDoctors.length; i++) {
-            if (arrDoctors[i].value === selectedOption.value) {
-               return arrDoctors[i];
-            }
-         }
-      }
-
-      return null;
-   }
    handleOnchangeDatePicker = (date) => {
       this.setState({
          currentDate: date[0]

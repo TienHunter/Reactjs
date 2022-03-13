@@ -289,3 +289,40 @@ export const fetchAllScheduleTimeFailed = () => ({
 });
 
 
+export const fetchRequiredDoctorInfor = () => {
+   return async (dispatch, getState) => {
+      try {
+         let resPRICE = await getAllcodeService('PRICE');
+         let resPAYMENT = await getAllcodeService('PAYMENT');
+         let resPROVINCE = await getAllcodeService('PROVINCE');
+         if (
+            resPRICE && resPRICE.errCode === 0 &&
+            resPAYMENT && resPAYMENT.errCode === 0 &&
+            resPROVINCE && resPROVINCE.errCode === 0
+         ) {
+            let resData = {
+               prices: resPRICE.data,
+               payments: resPAYMENT.data,
+               provinces: resPROVINCE.data
+            }
+            dispatch(fetchRequiredDoctorInforSuccess(resData))
+         } else {
+            toast.error('fetch required doctor infor failed')
+            dispatch(fetchRequiredDoctorInforFailed())
+         }
+      } catch (e) {
+         console.log('error required doctor infor from adminAction:', e);
+         toast.error('fetch required dotor infor failed')
+         dispatch(fetchRequiredDoctorInforFailed())
+      }
+   }
+};
+export const fetchRequiredDoctorInforSuccess = (resData) => ({
+   type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS,
+   data: resData
+});
+export const fetchRequiredDoctorInforFailed = () => ({
+   type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED
+});
+
+
