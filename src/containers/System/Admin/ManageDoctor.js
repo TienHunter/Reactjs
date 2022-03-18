@@ -134,6 +134,9 @@ class TableManageUsers extends Component {
          return currentValue.value === selectedOption.value
       })
    }
+   showLabelAvailabel = (arr, value) => {
+      return arr.find(currentValue => currentValue.value === value)
+   }
    handleEditorChange = ({ html, text }) => {
       this.setState({
          contentHTML: html,
@@ -183,20 +186,36 @@ class TableManageUsers extends Component {
       if (name.name === 'selectedOption') {
          let res = await getDetailInforDoctorById(selectedOption.value);
          console.log('res getDetailInforDoctorById from manage doctor: ', res);
-         if (res && res.errCode === 0 && res.data && res.data.Markdown) {
+         if (res && res.errCode === 0 && res.data && res.data.Markdown && res.data.Doctor_Infor) {
             const markdown = res.data.Markdown;
+            const doctorInfor = res.data.Doctor_Infor;
+            const { arrPrices, arrPayments, arrProvinces } = this.state;
             this.setState({
                contentHTML: markdown.contentHTML,
                contentMarkdown: markdown.contentMarkdown,
                description: markdown.description,
-               hasOldData: true
+               hasOldData: true,
+
+               selectedPrice: this.showLabelAvailabel(arrPrices, doctorInfor.priceId),
+               selectedPayment: this.showLabelAvailabel(arrPayments, doctorInfor.paymentId),
+               selectedProvince: this.showLabelAvailabel(arrProvinces, doctorInfor.provinceId),
+               nameClinic: doctorInfor.nameClinic,
+               addressClinic: doctorInfor.addressClinic,
+               note: doctorInfor.note,
             })
          } else {
             this.setState({
                contentHTML: '',
                contentMarkdown: '',
                description: '',
-               hasOldData: false
+               hasOldData: false,
+
+               selectedPrice: null,
+               selectedPayment: null,
+               selectedProvince: null,
+               nameClinic: '',
+               addressClinic: '',
+               note: ''
             })
          }
       }

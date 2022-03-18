@@ -41,6 +41,9 @@ const postBulkScheduleDoctor = (data) => {
 const getScheduleDoctorbyId = (doctorId, date) => {
    return axios.get(`/api/get-schedule-doctor-by-id?doctorId=${doctorId}&date=${date}`)
 }
+const getMedicalAddressByDoctorId = (doctorId) => {
+   return axios.get(`/api/medical-address-by-doctorId?doctorId=${doctorId}`)
+}
 export {
    handleLoginApi,
    getAllUsers,
@@ -53,5 +56,6 @@ export {
    saveDetailDoctorService,
    getDetailInforDoctorById,
    postBulkScheduleDoctor,
-   getScheduleDoctorbyId
+   getScheduleDoctorbyId,
+   getMedicalAddressByDoctorId
 };

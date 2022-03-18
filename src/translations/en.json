@@ -78,6 +78,13 @@
             "no-schedule":"the doctor doesn't have any an appointment during this time, please select another time",
             "choose":"Choose",
             "book-free":"and book( free )"
+        },
+        "medical-address":{
+            "address":"Clinic address",
+            "price":"Medical examination fee",
+            "detail":"See details",
+            "payment":"Payment methods available",
+            "hide":"show view"
         }
     },
     "admin":{

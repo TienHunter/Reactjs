@@ -50,7 +50,6 @@ class DoctorSchedule extends Component {
       }
       if (prevProps.doctorId !== this.props.doctorId) {
          let { allDays } = this.state;
-         console.log('check componentDidUpdate allDays:', allDays);
          let res = await getScheduleDoctorbyId(this.props.doctorId, allDays[0].value)
          if (res && res.errCode === 0) {
             this.setState({
@@ -74,7 +73,6 @@ class DoctorSchedule extends Component {
    render() {
       const { allDays, allAvalableTime } = this.state;
       let { language } = this.props;
-      console.log(allAvalableTime);
       return (
          <div className='doctor-schedule-contanier'>
             <div>
@@ -113,7 +111,7 @@ class DoctorSchedule extends Component {
                         </div>
                         <div className="booking">
                            <FormattedMessage id="patient.detail-doctor.choose" />
-                           <i class="fas fa-hand-point-up"></i>
+                           <i className="fas fa-hand-point-up"></i>
                            <FormattedMessage id="patient.detail-doctor.book-free" />
                         </div>
                      </>
