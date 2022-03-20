@@ -36,7 +36,6 @@ class DoctorSchedule extends Component {
       let { language } = this.props;
       let { isShowDetail } = this.state;
       let { addressClinic, nameClinic, note, paymentData, priceData, provinceData } = this.state.medicalAddress;
-      console.log('check property of medicalAddress: ', this.state.medicalAddress);
       return (
          <div className='doctor-address-contanier'>
             <div className="doctor-address-examination">

@@ -5,13 +5,16 @@ import localization from 'moment/locale/vi'
 import { FormattedMessage } from 'react-intl'
 import { LANGUAGES } from '../../../utils'
 import { getScheduleDoctorbyId } from '../../../services/userService'
+import BookingModal from './Modal/BookingModal'
 import './DoctorSchedule.scss'
 class DoctorSchedule extends Component {
    constructor(props) {
       super(props);
       this.state = {
          allDays: [],
-         allAvalableTime: []
+         allAvalableTime: [],
+         isOpeningModal: false,
+         dataTimeToChild: {}
       }
    }
 
@@ -70,56 +73,78 @@ class DoctorSchedule extends Component {
          }
       }
    }
+   timeExamination = (time) => {
+      this.setState({
+         isOpeningModal: true,
+         dataTimeToChild: time
+      })
+   }
+   closeBookingModal = () => { this.setState({ isOpeningModal: false }) }
    render() {
-      const { allDays, allAvalableTime } = this.state;
+      const { allDays, allAvalableTime, isOpeningModal } = this.state;
       let { language } = this.props;
       return (
-         <div className='doctor-schedule-contanier'>
-            <div>
-               <select
-                  className="select-tag"
-                  onChange={(event) => this.hanleOnchangeSelect(event)}
-               >
-                  {allDays && allDays.length > 0 && allDays.map((item, index) => {
-                     return (
-                        <option
-                           key={index}
-                           value={item.value}
-                        >
-                           {item.label}
-                        </option>
-                     )
-                  })}
-               </select>
-            </div>
-            <div className="all-avalable-time">
-               <div className="text-calendar">
-                  <i className="fas fa-calendar-alt">
-                     <span><FormattedMessage id="patient.detail-doctor.schedule" /></span>
-                  </i>
+         <>
+            <div className='doctor-schedule-contanier'>
+               <div>
+                  <select
+                     className="select-tag"
+                     onChange={(event) => this.hanleOnchangeSelect(event)}
+                  >
+                     {allDays && allDays.length > 0 && allDays.map((item, index) => {
+                        return (
+                           <option
+                              key={index}
+                              value={item.value}
+                           >
+                              {item.label}
+                           </option>
+                        )
+                     })}
+                  </select>
                </div>
-               <div className="schedule-time">
-                  {allAvalableTime && allAvalableTime.length > 0 ?
-                     <>
-                        <div className="schedule-time__select">
-                           {allAvalableTime.map((item, index) => {
-                              let timeDisplay = language === LANGUAGES.VI ? item.timeData.valueVi : item.timeData.valueEn;
-                              return (
-                                 <button className={`btn-schedule ${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}`} key={index}>{timeDisplay}</button>
-                              )
-                           })}
-                        </div>
-                        <div className="booking">
-                           <FormattedMessage id="patient.detail-doctor.choose" />
-                           <i className="fas fa-hand-point-up"></i>
-                           <FormattedMessage id="patient.detail-doctor.book-free" />
-                        </div>
-                     </>
-                     :
-                     <div className="no-schedule"><FormattedMessage id="patient.detail-doctor.no-schedule" /></div>
-                  }
-               </div></div>
-         </div >
+               <div className="all-avalable-time">
+                  <div className="text-calendar">
+                     <i className="fas fa-calendar-alt">
+                        <span><FormattedMessage id="patient.detail-doctor.schedule" /></span>
+                     </i>
+                  </div>
+                  <div className="schedule-time">
+                     {allAvalableTime && allAvalableTime.length > 0 ?
+                        <>
+                           <div className="schedule-time__select">
+                              {allAvalableTime.map((item, index) => {
+                                 let timeDisplay = language === LANGUAGES.VI ? item.timeData.valueVi : item.timeData.valueEn;
+                                 return (
+                                    <button
+                                       className={`btn-schedule ${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}`}
+                                       key={index}
+                                       onClick={() => this.timeExamination(item)}
+                                    >
+                                       {timeDisplay}
+                                    </button>
+                                 )
+                              })}
+                           </div>
+                           <div className="booking">
+                              <FormattedMessage id="patient.detail-doctor.choose" />
+                              <i className="fas fa-hand-point-up"></i>
+                              <FormattedMessage id="patient.detail-doctor.book-free" />
+                           </div>
+                        </>
+                        :
+                        <div className="no-schedule"><FormattedMessage id="patient.detail-doctor.no-schedule" /></div>
+                     }
+                  </div></div>
+            </div >
+            {isOpeningModal &&
+               <BookingModal
+                  isOpeningModal={isOpeningModal}
+                  closeBookingModal={this.closeBookingModal}
+                  dataTime={this.state.dataTimeToChild}
+               />
+            }
+         </>
       );
    }
 }
