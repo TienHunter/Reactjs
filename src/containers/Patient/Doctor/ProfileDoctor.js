@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { LANGUAGES } from '../../../utils'
 import NumberFormat from 'react-number-format';
-
+import _ from "lodash";
+import moment from 'moment';
+import localization from 'moment/locale/vi'
 import { getProfileDoctorByDoctorId } from '../../../services/userService'
 
 import './ProfileDoctor.scss'
@@ -10,7 +12,8 @@ class ProfileDoctor extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         dataProfile: {}
+         dataProfile: {},
+         isShowDescription: false
       }
    }
 
@@ -41,10 +44,31 @@ class ProfileDoctor extends Component {
       }
       return result
    }
-   render() {
-      let { dataProfile } = this.state;
-      console.log('check dataProfileL:', dataProfile);
+   renderBookingTime = (dataTime) => {
       let { language } = this.props;
+      if (dataTime && !_.isEmpty(dataTime)) {
+         let date = '', time = '';
+         if (language === LANGUAGES.VI) {
+            date = moment.unix(dataTime.date / 1000).format('dddd - DD/MM/YYYY');
+            time = dataTime.timeData.valueVi;
+         } else {
+            date = moment.unix(dataTime.date / 1000).locale('en').format('ddd - MM/DD/yyy');
+            time = dataTime.timeData.valueEn;
+         }
+         return (
+            <>
+               <div>{time} ----- {date}</div>
+            </>
+         )
+      }
+      return (
+         <></>
+      )
+   }
+   render() {
+      let { dataProfile, isShowDescription } = this.state;
+      // console.log('check dataTime:', this.props.dataTime);
+      let { language, dataTime } = this.props;
       let nameVi = '', nameEn = '';
       if (dataProfile && dataProfile.positionData) {
          nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`
@@ -65,11 +89,12 @@ class ProfileDoctor extends Component {
                      }
                   </div>
                   <div className="description">
-                     {dataProfile.Markdown && dataProfile.Markdown.description &&
+                     {isShowDescription && dataProfile.Markdown && dataProfile.Markdown.description &&
                         <span>
                            {dataProfile.Markdown.description}
                         </span>
                      }
+                     {!isShowDescription && this.renderBookingTime(dataTime)}
                   </div>
                </div>
             </div>
