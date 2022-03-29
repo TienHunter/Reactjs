@@ -14,10 +14,12 @@ import {
 } from "reactstrap";
 import Select from 'react-select';
 import DatePicker from '../../../../components/Input/DatePicker'
-import _ from 'lodash'
+import _, { first } from 'lodash'
 import { ToastContainer, toast } from 'react-toastify';
+import moment, { lang } from "moment";
 import * as actions from '../../../../store/actions'
 import ProfileDoctor from "../ProfileDoctor";
+import LoadingData from "./LoadingData";
 import { postBookingAppointment } from '../../../../services/userService'
 import './BookingModal.scss'
 class BookingModal extends Component {
@@ -35,7 +37,8 @@ class BookingModal extends Component {
          date: '',
          timeType: '',
          dateOfBirth: '',
-         reason: ''
+         reason: '',
+         isLoadingData: false
       }
    }
 
@@ -102,7 +105,42 @@ class BookingModal extends Component {
          dateOfBirth: date[0]
       })
    }
+   buildBookingTime = () => {
+      let { language, dataTime } = this.props;
+      if (dataTime && !_.isEmpty(dataTime)) {
+         let date = '', time = '';
+         if (language === LANGUAGES.VI) {
+            date = moment.unix(dataTime.date / 1000).format('dddd - DD/MM/YYYY');
+            time = dataTime.timeData.valueVi;
+         } else {
+            date = moment.unix(dataTime.date / 1000).locale('en').format('ddd - MM/DD/yyy');
+            time = dataTime.timeData.valueEn;
+         }
+         return (
+            `${time} - ${date}`
+         )
+      }
+      return (
+         ''
+      )
+   }
+   buildDoctorName = () => {
+      let { language, dataTime } = this.props;
+      let doctorName = '';
+      if (dataTime && dataTime.doctorData) {
+         let { doctorData } = dataTime;
+         doctorName = language === LANGUAGES.VI ?
+            `${doctorData.lastName} ${doctorData.lastName}`
+            :
+            `${doctorData.firstName} ${doctorData.lastName}`
+      }
+      return doctorName;
+   }
    saveBookingAppointment = async () => {
+      console.log('check state booking:', this.state);
+      this.setState({
+         isLoadingData: true
+      })
       let { email, firstName, lastName, phoneNumber, address, genderSelected
          , date, doctorId, timeType,
          dateOfBirth, reason }
@@ -111,6 +149,11 @@ class BookingModal extends Component {
       if (date) {
          dateToString = date.toString()
       }
+      let doctorName = this.buildDoctorName();
+      let bookingTime = this.buildBookingTime();
+      let patientName = '';
+      let { language } = this.props;
+      patientName = language === LANGUAGES.VI ? `${lastName} ${firstName}` : `${firstName} ${lastName}`
       let res = await postBookingAppointment({
          email,
          firstName,
@@ -121,8 +164,15 @@ class BookingModal extends Component {
          doctorId,
          date: dateToString,
          timeType,
+         doctorName,
+         bookingTime,
+         patientName,
+         language
          // dateOfBirth: '',
          // reason: ''
+      })
+      this.setState({
+         isLoadingData: false
       })
       if (res && res.errCode === 0) {
          toast.success('save booking appointment success');
@@ -133,10 +183,8 @@ class BookingModal extends Component {
    }
    render() {
       let { isOpeningModal, closeBookingModal, dataTime } = this.props;
-      let { genders } = this.state;
+      let { genders, isLoadingData } = this.state;
       let { email, firstName, lastName, phoneNumber, address, genderSelected, dateOfBirth, reason } = this.state;
-      // console.log('check props booking modal:', dataTime);
-      // console.log('check date of birth: ', dateOfBirth);
       return (
          <div>
             <Modal
@@ -250,6 +298,7 @@ class BookingModal extends Component {
                   >Cancel</button>
                </div>
             </Modal>
+            {isLoadingData && <LoadingData />}
          </div>
       );
    }

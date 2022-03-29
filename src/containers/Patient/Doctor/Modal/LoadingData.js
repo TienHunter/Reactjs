@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { LANGUAGES } from '../../../utils'
-
-import './DefaultComponent.scss'
-class DefaultComponent extends Component {
+import { FormattedMessage } from "react-intl";
+import './LoadingData.scss'
+class LoadingData extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -14,10 +13,12 @@ class DefaultComponent extends Component {
    }
    componentDidUpdate(prevProps, prevState, snapshot) { }
    render() {
-
+      console.log('check loading data');
       return (
-         <>
-         </>
+         <div className="loading-data-container">
+            <div class="loading__ring"></div>
+            <span className="loading__text">Loading...</span>
+         </div>
       );
    }
 }
@@ -32,4 +33,4 @@ const mapDispatchToProps = (dispatch) => {
    return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingData);
