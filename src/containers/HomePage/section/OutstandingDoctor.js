@@ -53,7 +53,7 @@ class OutstandingDoctor extends Component {
 
                         return (
                            <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
-                              <div className="customize-border">
+                              <div className="section-item-custom customize-border">
                                  <div className="bg-image section-outstanding-doctor"
                                     style={{ backgroundImage: `url(${imageBase64})` }}
                                  />

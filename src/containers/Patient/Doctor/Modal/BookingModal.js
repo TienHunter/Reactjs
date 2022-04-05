@@ -17,6 +17,7 @@ import DatePicker from '../../../../components/Input/DatePicker'
 import _, { first } from 'lodash'
 import { ToastContainer, toast } from 'react-toastify';
 import moment, { lang } from "moment";
+import { FormattedMessage, injectIntl } from "react-intl"
 import * as actions from '../../../../store/actions'
 import ProfileDoctor from "../ProfileDoctor";
 import LoadingData from "./LoadingData";
@@ -183,6 +184,7 @@ class BookingModal extends Component {
    }
    render() {
       let { isOpeningModal, closeBookingModal, dataTime } = this.props;
+      let { intl } = this.props
       let { genders, isLoadingData } = this.state;
       let { email, firstName, lastName, phoneNumber, address, genderSelected, dateOfBirth, reason } = this.state;
       return (
@@ -193,7 +195,9 @@ class BookingModal extends Component {
                centered
             >
                <div className="header">
-                  <span className="title">Thông tin đặt lịch khám bệnh</span>
+                  <span className="title">
+                     <FormattedMessage id="patient.booking-appointment.make-appointment" />
+                  </span>
                   <i
                      className="fas fa-times"
                      onClick={closeBookingModal}
@@ -204,81 +208,101 @@ class BookingModal extends Component {
                      <ProfileDoctor
                         doctorId={dataTime && dataTime.doctorId ? dataTime.doctorId : -1}
                         dataTime={dataTime}
+                        isShowDescription={false}
+                        isShowFee={true}
                      />
                   </div>
                   <div className="row">
                      <div className="col-6 form-group">
-                        <label>First Name</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.firstname" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='first name'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.firstname" })}
                            value={firstName}
                            onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
                         />
                      </div>
                      <div className="col-6 form-group">
-                        <label>Last Name</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.lastname" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='last name'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.lastname" })}
                            value={lastName}
                            onChange={(event) => this.handleOnChangeInput(event, 'lastName')}
                         />
                      </div>
                      <div className="col-6 form-group">
-                        <label>Phone number</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.phoneNumber" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='phoneNumber'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.phoneNumber" })}
                            value={phoneNumber}
                            onChange={(event) => this.handleOnChangeInput(event, 'phoneNumber')}
                         />
                      </div>
                      <div className="col-6 form-group">
-                        <label>Email</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.email" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='email'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.email" })}
                            value={email}
                            onChange={(event) => this.handleOnChangeInput(event, 'email')}
                         />
                      </div>
                      <div className="col-12 form-group">
-                        <label>Address</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.address" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='address'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.address" })}
                            value={address}
                            onChange={(event) => this.handleOnChangeInput(event, 'address')}
                         />
                      </div>
                      <div className="col-6 form-group">
-                        <label>Date of birth</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.dateOfBirth" />
+                        </label>
                         <DatePicker
                            className="form-control"
                            onChange={this.handleOnchangeDatePicker}
                            value={dateOfBirth}
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.dateOfBirth" })}
                         />
                      </div>
                      <div className="col-6 form-group">
-                        <label>Gender</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.gender" />
+                        </label>
                         <Select
                            value={genderSelected}
                            onChange={this.handleChangeSelect}
                            options={genders}
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.gender" })}
                         />
                      </div>
                      <div className="col-12 form-group">
-                        <label>Reason</label>
+                        <label>
+                           <FormattedMessage id="patient.booking-appointment.reason" />
+                        </label>
                         <input
                            type='text'
                            className="form-control"
-                           placeholder='reason'
+                           placeholder={intl.formatMessage({ id: "patient.booking-appointment.reason" })}
                            value={reason}
                            onChange={(event) => this.handleOnChangeInput(event, 'reason')}
                         />
@@ -290,12 +314,14 @@ class BookingModal extends Component {
                      className="btn-booking-modal btn-confirm"
                      onClick={() => this.saveBookingAppointment()}
                   >
-                     Confirm
+                     <FormattedMessage id="patient.booking-appointment.confirm" />
                   </button>
                   <button
                      className="btn-booking-modal btn-cancel"
                      onClick={closeBookingModal}
-                  >Cancel</button>
+                  >
+                     <FormattedMessage id="patient.booking-appointment.cancel" />
+                  </button>
                </div>
             </Modal>
             {isLoadingData && <LoadingData />}
@@ -317,4 +343,4 @@ const mapDispatchToProps = (dispatch) => {
    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(BookingModal));

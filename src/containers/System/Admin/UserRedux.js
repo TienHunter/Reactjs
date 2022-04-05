@@ -342,7 +342,7 @@ class UserRedux extends Component {
                                             hidden
                                             onChange={(event) => this.handleOnchangeImage(event)}
                                         />
-                                        <label htmlFor="image" className="lable-upload">
+                                        <label htmlFor="image" className="label-upload">
                                             <FormattedMessage id="manage-user.prevViewImg" />
                                             <i className="fas fa-upload"></i>
                                         </label>

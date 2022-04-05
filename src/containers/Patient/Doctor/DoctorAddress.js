@@ -5,7 +5,7 @@ import { LANGUAGES } from '../../../utils'
 import { FormattedMessage } from 'react-intl'
 import { getMedicalAddressByDoctorId } from '../../../services/userService'
 import './DoctorAddress.scss';
-class DoctorSchedule extends Component {
+class DoctorAddress extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -16,6 +16,10 @@ class DoctorSchedule extends Component {
 
    async componentDidMount() {
       let { language } = this.props;
+      let res = await getMedicalAddressByDoctorId(this.props.doctorId);
+      if (res && res.errCode === 0) {
+         this.setState({ medicalAddress: res.data })
+      }
    }
    async componentDidUpdate(prevProps, prevState, snapshot) {
       if (prevProps.language !== this.props.language) {
@@ -138,4 +142,4 @@ const mapDispatchToProps = (dispatch) => {
    return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DoctorSchedule);
+export default connect(mapStateToProps, mapDispatchToProps)(DoctorAddress);

@@ -4,6 +4,7 @@ import { LANGUAGES } from '../../../utils'
 import NumberFormat from 'react-number-format';
 import _ from "lodash";
 import moment from 'moment';
+import { FormattedMessage } from 'react-intl'
 import localization from 'moment/locale/vi'
 import { getProfileDoctorByDoctorId } from '../../../services/userService'
 
@@ -66,9 +67,9 @@ class ProfileDoctor extends Component {
       )
    }
    render() {
-      let { dataProfile, isShowDescription } = this.state;
+      let { dataProfile } = this.state;
       // console.log('check dataTime:', this.props.dataTime);
-      let { language, dataTime } = this.props;
+      let { language, dataTime, isShowDescription, isShowFee } = this.props;
       let nameVi = '', nameEn = '';
       if (dataProfile && dataProfile.positionData) {
          nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`
@@ -98,33 +99,34 @@ class ProfileDoctor extends Component {
                   </div>
                </div>
             </div>
-            <div className="fee-examination">
-               <span className="fee-title">
-                  Fee examination :
-               </span>
-               <span className="fee">
-                  {
-                     dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.priceData && language === LANGUAGES.VI &&
-                     <NumberFormat
-                        value={dataProfile.Doctor_Infor.priceData.valueVi}
-                        className="foo"
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        suffix={'VND'}
-                     />
-                  }
-                  {
-                     dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.priceData && language === LANGUAGES.EN &&
-                     <NumberFormat
-                        value={dataProfile.Doctor_Infor.priceData.valueEn}
-                        className="foo"
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        suffix={'$'}
-                     />
-                  }
-               </span>
-            </div>
+            {isShowFee &&
+               <div className="fee-examination">
+                  <span className="fee-title">
+                     <FormattedMessage id="patient.booking-appointment.fee-examination" />
+                  </span>
+                  <span className="fee">
+                     {
+                        dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.priceData && language === LANGUAGES.VI &&
+                        <NumberFormat
+                           value={dataProfile.Doctor_Infor.priceData.valueVi}
+                           className="foo"
+                           displayType={'text'}
+                           thousandSeparator={true}
+                           suffix={'VND'}
+                        />
+                     }
+                     {
+                        dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.priceData && language === LANGUAGES.EN &&
+                        <NumberFormat
+                           value={dataProfile.Doctor_Infor.priceData.valueEn}
+                           className="foo"
+                           displayType={'text'}
+                           thousandSeparator={true}
+                           suffix={'$'}
+                        />
+                     }
+                  </span>
+               </div>}
          </div>
 
       );

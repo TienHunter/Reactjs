@@ -9,7 +9,8 @@ import {
    editUserService,
    getTopDoctorHomeService,
    getAllDoctorsService,
-   saveDetailDoctorService
+   saveDetailDoctorService,
+   getAllSpecialties
 } from '../../services/userService';
 export const fetchGenderStart = () => {
    return async (dispatch, getState) => {
@@ -295,15 +296,18 @@ export const fetchRequiredDoctorInfor = () => {
          let resPRICE = await getAllcodeService('PRICE');
          let resPAYMENT = await getAllcodeService('PAYMENT');
          let resPROVINCE = await getAllcodeService('PROVINCE');
+         let resSPECIALTY = await getAllcodeService('SPECIALTY');
          if (
             resPRICE && resPRICE.errCode === 0 &&
             resPAYMENT && resPAYMENT.errCode === 0 &&
-            resPROVINCE && resPROVINCE.errCode === 0
+            resPROVINCE && resPROVINCE.errCode === 0 &&
+            resSPECIALTY && resSPECIALTY.errCode === 0
          ) {
             let resData = {
                prices: resPRICE.data,
                payments: resPAYMENT.data,
-               provinces: resPROVINCE.data
+               provinces: resPROVINCE.data,
+               specialties: resSPECIALTY.data
             }
             dispatch(fetchRequiredDoctorInforSuccess(resData))
          } else {
@@ -325,4 +329,26 @@ export const fetchRequiredDoctorInforFailed = () => ({
    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED
 });
 
+// get all specialties
 
+export const fetchAllSpecialties = () => {
+   return async (dispatch, getState) => {
+      try {
+         let res = await getAllSpecialties();
+         if (res && res.errCode === 0) {
+            dispatch({
+               type: actionTypes.FETCH_ALL_SPECIALTIES_SUCCESS,
+               data: res.data
+            })
+         } else {
+            dispatch({
+               type: actionTypes.FETCH_ALL_SPECIALTIES_FAILED
+            })
+         }
+      } catch (e) {
+         dispatch({
+            type: actionTypes.FETCH_ALL_SPECIALTIES_FAILED
+         })
+      }
+   }
+};

@@ -62,7 +62,8 @@
     },
     "homepage":{
         "more-infor":"Xem thêm",
-        "outstanding-doctor":"Bác sĩ nổi bật tuần qua"
+        "outstanding-doctor":"Bác sĩ nổi bật tuần qua",
+        "popular-specialty":"Chuyên khoa phổ biến"
     },
     "manage-schedule": {
         "title":"Quản lý lịch khám bệnh của bác sỹ",
@@ -83,7 +84,25 @@
             "detail":"Xem chi tiết",
             "payment":"Phương thức thanh toán khả dụng",
             "hide":"Rút gọn..."
+        },
+        "booking-appointment":{
+            "make-appointment":"medical appointment booking information",
+            "fee-examination":"Phí kiểm tra: ",
+            "firstname":"Tên",
+            "lastname":"Họ",
+            "phoneNumber":"Số điện thoại",
+            "email":"Email",
+            "address":"Địa chỉ",
+            "dateOfBirth":"Ngày sinh",
+            "gender":"Giới tính",
+            "reason":"Lý do",
+            "confirm":"Xác nhận",
+            "cancel":"Hủy"
+        },
+        "detail-specialty":{
+            "more-infor":"Xem thêm ..."
         }
+        
     },
     "admin":{
         "manage-doctor":{
@@ -96,6 +115,7 @@
             "name-clinic":"Tên phòng khám",
             "address-clinic":"Địa chỉ phòng khám",
             "note":"Ghi chú",
+            "specialty":"Chuyên khoa",
             "update":"Cập nhật thông tin",
             "create":"Tạo thông tin"
         }

@@ -68,6 +68,7 @@ class DetailDoctor extends Component {
                            doctorId={detailDoctor && detailDoctor.id ? detailDoctor.id : -1}
                         />
                      </div>
+                     <div className="border-vertical" />
                      <div className="content-right">
                         <DoctorAddress
                            doctorId={detailDoctor && detailDoctor.id ? detailDoctor.id : -1}

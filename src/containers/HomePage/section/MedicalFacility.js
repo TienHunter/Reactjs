@@ -18,25 +18,25 @@ class MedicalFacility extends Component {
                   <Slider {...this.props.settings}>
                      <div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div><div className='section-customize'>
                         <div className="bg-image section-medical-facility" />
-                        <div>Bệnh viện chợ rẫy </div>
+                        <div className="section-name-detail">Bệnh viện chợ rẫy </div>
                      </div>
 
                   </Slider>

@@ -1,0 +1,36 @@
+.manage-specialty-container {
+  .specialty__title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    color: cadetblue;
+  }
+  .specialty__doctor {
+    label {
+      margin-bottom: 8px;
+    }
+  }
+  .specialty_image {
+    label {
+      margin-bottom: 8px;
+    }
+  }
+  .specialty__editor {
+    margin-top: 20px;
+  }
+  .btn-save {
+    border: none;
+    outline: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin: 12px;
+    background-color: orange;
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 1;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

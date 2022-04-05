@@ -28,9 +28,13 @@ class TableManageUsers extends Component {
          arrPrices: [],
          arrPayments: [],
          arrProvinces: [],
+         arrSpecialties: [],
+         arrClinics: [],
          selectedPrice: null,
          selectedPayment: null,
          selectedProvince: null,
+         selectedSpecialty: null,
+         selectedClinic: null,
          nameClinic: '',
          addressClinic: '',
          note: ''
@@ -87,17 +91,18 @@ class TableManageUsers extends Component {
       }
       if (prevProps.language !== this.props.language) {
          let arrDoctors = this.buildDataSelect(this.props.allDoctors, 'USER')
-         let { prices, payments, provinces } = this.props.requiredDoctorInfor
+         let { prices, payments, provinces, specialties } = this.props.requiredDoctorInfor
          let arrPrices = this.buildDataSelect(prices, "PRICE")
          let arrPayments = this.buildDataSelect(payments)
          let arrProvinces = this.buildDataSelect(provinces)
+         let arrSpecialties = this.buildDataSelect(specialties)
          this.setState({
-            arrPrices, arrPayments, arrProvinces, arrDoctors
+            arrPrices, arrPayments, arrProvinces, arrDoctors, arrSpecialties
          })
       }
       if (prevState.arrDoctors !== this.state.arrDoctors) {
-         let { arrDoctors, arrPayments, arrProvinces, arrPrices } = this.state;
-         let { selectedOption, selectedProvince, selectedPayment, selectedPrice } = this.state;
+         let { arrDoctors, arrPayments, arrProvinces, arrPrices, arrSpecialties } = this.state;
+         let { selectedOption, selectedProvince, selectedPayment, selectedPrice, selectedSpecialty } = this.state;
          if (selectedOption) {
             this.setState({
                selectedOption: this.fixShowLabel(arrDoctors, selectedOption)
@@ -118,14 +123,20 @@ class TableManageUsers extends Component {
                selectedProvince: this.fixShowLabel(arrProvinces, selectedProvince)
             })
          }
+         if (selectedSpecialty) {
+            this.setState({
+               selectedSpecialty: this.fixShowLabel(arrSpecialties, selectedSpecialty)
+            })
+         }
       }
       if (prevProps.requiredDoctorInfor !== this.props.requiredDoctorInfor) {
-         let { prices, payments, provinces } = this.props.requiredDoctorInfor
+         let { prices, payments, provinces, specialties } = this.props.requiredDoctorInfor
          let arrPrices = this.buildDataSelect(prices, "PRICE")
          let arrPayments = this.buildDataSelect(payments)
          let arrProvinces = this.buildDataSelect(provinces)
+         let arrSpecialties = this.buildDataSelect(specialties)
          this.setState({
-            arrPrices, arrPayments, arrProvinces
+            arrPrices, arrPayments, arrProvinces, arrSpecialties
          })
       }
    }
@@ -145,7 +156,7 @@ class TableManageUsers extends Component {
    }
    handleSaveMarkdown = async () => {
       let { contentHTML, contentMarkdown, description, selectedOption, hasOldData } = this.state;
-      let { selectedProvince, selectedPayment, selectedPrice, nameClinic, addressClinic, note } = this.state;
+      let { selectedProvince, selectedPayment, selectedPrice, nameClinic, addressClinic, note, selectedSpecialty } = this.state;
       await this.props.createDetailDoctor({
          contentHTML: contentHTML,
          contentMarkdown: contentMarkdown,
@@ -158,7 +169,8 @@ class TableManageUsers extends Component {
          paymentId: selectedPayment.value,
          addressClinic: addressClinic,
          nameClinic: nameClinic,
-         note: note
+         note: note,
+         specialtyId: selectedSpecialty.value
       })
       let { createInforDoctor } = this.props
       if (createInforDoctor) {
@@ -174,7 +186,8 @@ class TableManageUsers extends Component {
             selectedProvince: null,
             nameClinic: '',
             addressClinic: '',
-            note: ''
+            note: '',
+            selectedSpecialty: null
          })
       }
 
@@ -189,7 +202,7 @@ class TableManageUsers extends Component {
          if (res && res.errCode === 0 && res.data && res.data.Markdown && res.data.Doctor_Infor) {
             const markdown = res.data.Markdown;
             const doctorInfor = res.data.Doctor_Infor;
-            const { arrPrices, arrPayments, arrProvinces } = this.state;
+            const { arrPrices, arrPayments, arrProvinces, arrSpecialties } = this.state;
             this.setState({
                contentHTML: markdown.contentHTML,
                contentMarkdown: markdown.contentMarkdown,
@@ -202,6 +215,7 @@ class TableManageUsers extends Component {
                nameClinic: doctorInfor.nameClinic,
                addressClinic: doctorInfor.addressClinic,
                note: doctorInfor.note,
+               selectedSpecialty: this.showLabelAvailabel(arrSpecialties, doctorInfor.specialtyId),
             })
          } else {
             this.setState({
@@ -215,7 +229,8 @@ class TableManageUsers extends Component {
                selectedProvince: null,
                nameClinic: '',
                addressClinic: '',
-               note: ''
+               note: '',
+               selectedSpecialty: null
             })
          }
       }
@@ -232,7 +247,7 @@ class TableManageUsers extends Component {
       let { selectedOption, description, arrDoctors, contentMarkdown, hasOldData } = this.state;
       let { arrPrices, arrPayments, arrProvinces,
          selectedPrice, selectedPayment, selectedProvince,
-         nameClinic, addressClinic, note } = this.state;
+         nameClinic, addressClinic, note, selectedSpecialty, arrSpecialties } = this.state;
       return (
          <div className="manage-doctor-container container">
             <div className="manage-doctor-title">
@@ -334,10 +349,35 @@ class TableManageUsers extends Component {
                      onChange={(event) => this.handleOnchangeText(event, 'note')}
                   />
                </div>
+               <div className="col-4">
+                  <label>
+                     <FormattedMessage id="admin.manage-doctor.specialty" />
+                  </label>
+                  <Select
+                     value={selectedSpecialty}
+                     onChange={this.handleChangeSelect}
+                     options={arrSpecialties}
+                     name='selectedSpecialty'
+                     placeholder={<FormattedMessage id="admin.manage-doctor.specialty" />}
+                  />
+               </div>
+               <div className="col-4">
+                  <label>
+                     {/* <FormattedMessage id="admin.manage-doctor.payment" /> */}
+                     Phòng khám
+                  </label>
+                  <Select
+                     value={'selectedClinic'}
+                     onChange={this.handleChangeSelect}
+                     // options={arrClinics}
+                     name='selectedClinic'
+                  // placeholder={<FormattedMessage id="admin.manage-doctor.payment" />}
+                  />
+               </div>
             </div>
             <div className="manage-doctor-editor">
                <MdEditor
-                  style={{ height: '500px' }}
+                  style={{ height: '300px' }}
                   renderHTML={text => mdParser.render(text)}
                   value={contentMarkdown}
                   onChange={this.handleEditorChange}

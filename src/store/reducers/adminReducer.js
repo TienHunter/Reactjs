@@ -12,7 +12,8 @@ const initialState = {
     allDoctors: [],
     createInforDoctor: false,
     allScheduleTime: [],
-    requiredDoctorInfor: []
+    requiredDoctorInfor: [],
+    allSpecialties: []
 }
 
 const appReducer = (state = initialState, action) => {
@@ -111,6 +112,13 @@ const appReducer = (state = initialState, action) => {
             return { ...state }
         case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED:
             state.requiredDoctorInfor = [];
+            return { ...state }
+
+        case actionTypes.FETCH_ALL_SPECIALTIES_SUCCESS:
+            state.allSpecialties = action.data;
+            return { ...state }
+        case actionTypes.FETCH_ALL_SPECIALTIES_FAILED:
+            state.allSpecialties = [];
             return { ...state }
         default:
             return state;

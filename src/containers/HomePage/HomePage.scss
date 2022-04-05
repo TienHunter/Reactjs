@@ -42,15 +42,16 @@ html {
   display: none !important;
 }
 .section-share {
-  height: 330px;
+  // height: 100%;
+  padding: 20px 0;
   .section-container {
     margin: 0 100px;
     display: flex;
     flex-direction: column;
     .section-header {
-      height: 60px;
-      margin-bottom: 30px;
-      padding-top: 30px;
+      // height: 60px;
+      margin-bottom: 24px;
+      // padding-top: 30px;
       .title-section {
         font-size: 24px;
         font-weight: 700;
@@ -83,48 +84,59 @@ html {
   }
   .section-body {
     .section-customize {
-      .bg-image {
-        width: 278px;
-        height: 150px;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-color: #eee;
-
-        &.section-specialty {
-          background-image: url("../../assets/specialty/co-xuong-khop.jpg");
+      .section-item-custom {
+        margin: 10px;
+        opacity: 1;
+        cursor: pointer;
+        transition: linear 0.2s;
+        &:hover {
+          opacity: 0.8;
         }
-        &.section-medical-facility {
-          background-image: url("../../assets/medicalFacility/benh-vien-cho-ray-h1.jpg");
+        .bg-image {
+          width: 270px;
+          height: 150px;
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-color: #eee;
+          &.section-medical-facility {
+            background-image: url("../../assets/medicalFacility/benh-vien-cho-ray-h1.jpg");
+          }
+          &.section-outstanding-doctor {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 10px auto;
+          }
+          &.section-handbook {
+            background-image: url("../../assets/handbook/phau-thuat-khuc-xa.jpg");
+          }
         }
-        &.section-outstanding-doctor {
-          background-image: url("../../assets/outstandingDoctor/anh-dai-dien-bs.jpg");
-          width: 120px;
-          height: 120px;
-          border-radius: 50%;
-          margin: 10px auto;
-        }
-        &.section-handbook {
-          background-image: url("../../assets/handbook/phau-thuat-khuc-xa.jpg");
+        .section-name-detail {
+          font-size: 14px;
+          padding-top: 8px;
+          text-align: center;
+          font-weight: 600;
+          color: #666;
         }
       }
+
     }
   }
 }
 
 .section-outstanding-doctor {
   .customize-border {
-    margin: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #7b7b7b;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
+    // border: 1px solid #7b7b7b;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    // cursor: pointer;
+    // &:hover {
+    //   opacity: 0.8;
+    // }
     .doctor-name {
       padding: 0px 10px;
       font-size: 1.2rem;
