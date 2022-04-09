@@ -120,15 +120,21 @@ class DetailSpecialty extends Component {
    }
    render() {
       let { specialty, arrProvinces, selectedProvince, doctorsProvince } = this.state;
+      let { image } = specialty;
       return (
          <>
             <HomeHeader />
             <div className="detail-specialty-container">
-               <div className="specialty__intro">
-                  <div className="container">
-                     {specialty && specialty.descriptionHTML
-                        && <div dangerouslySetInnerHTML={{ __html: specialty.descriptionHTML }} />
-                     }
+               <div
+                  className="specialty__intro"
+                  style={{ backgroundImage: `url(${image ? image : ''})` }}
+               >
+                  <div className="background-rgba">
+                     <div className="container">
+                        {specialty && specialty.descriptionHTML
+                           && <div dangerouslySetInnerHTML={{ __html: specialty.descriptionHTML }} />
+                        }
+                     </div>
                   </div>
                </div>
 

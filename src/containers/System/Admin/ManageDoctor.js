@@ -5,7 +5,7 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { connect } from "react-redux";
 import Select from 'react-select';
-import { getDetailInforDoctorById } from '../../../services/userService';
+import { getDetailInforDoctorById, getAllClinics } from '../../../services/userService';
 import * as actions from '../../../store/actions';
 import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
 import './ManageDoctor.scss';
@@ -43,7 +43,12 @@ class TableManageUsers extends Component {
 
    async componentDidMount() {
       this.props.fetchAllDoctors();
-      this.props.fetchRequiredDoctorInfor()
+      this.props.fetchRequiredDoctorInfor();
+      // get all Clinics
+      let resClinics = await getAllClinics();
+      if (resClinics && resClinics.errCode === 0) {
+         this.setState({ arrClinics: this.buildDataSelect(resClinics.data, "CLINIC") })
+      }
    }
    buildDataSelect = (data, type) => {
       let results = [];
@@ -70,7 +75,15 @@ class TableManageUsers extends Component {
                results.push(object)
             })
          }
-      } else {
+      } else if (type === 'CLINIC') {
+         data.map((item, index) => {
+            let object = {};
+            object.label = item.address;
+            object.value = item.id;
+            results.push(object)
+         })
+      }
+      else {
          if (data && data.length > 0) {
             data.map((item, index) => {
                let object = {};
@@ -156,7 +169,7 @@ class TableManageUsers extends Component {
    }
    handleSaveMarkdown = async () => {
       let { contentHTML, contentMarkdown, description, selectedOption, hasOldData } = this.state;
-      let { selectedProvince, selectedPayment, selectedPrice, nameClinic, addressClinic, note, selectedSpecialty } = this.state;
+      let { selectedProvince, selectedPayment, selectedPrice, nameClinic, addressClinic, note, selectedSpecialty, selectedClinic } = this.state;
       await this.props.createDetailDoctor({
          contentHTML: contentHTML,
          contentMarkdown: contentMarkdown,
@@ -170,7 +183,8 @@ class TableManageUsers extends Component {
          addressClinic: addressClinic,
          nameClinic: nameClinic,
          note: note,
-         specialtyId: selectedSpecialty.value
+         specialtyId: selectedSpecialty.value,
+         clinicId: selectedClinic.value
       })
       let { createInforDoctor } = this.props
       if (createInforDoctor) {
@@ -187,7 +201,8 @@ class TableManageUsers extends Component {
             nameClinic: '',
             addressClinic: '',
             note: '',
-            selectedSpecialty: null
+            selectedSpecialty: null,
+            selectedClinic: null
          })
       }
 
@@ -198,11 +213,10 @@ class TableManageUsers extends Component {
       this.setState({ ...copyState });
       if (name.name === 'selectedOption') {
          let res = await getDetailInforDoctorById(selectedOption.value);
-         console.log('res getDetailInforDoctorById from manage doctor: ', res);
          if (res && res.errCode === 0 && res.data && res.data.Markdown && res.data.Doctor_Infor) {
             const markdown = res.data.Markdown;
             const doctorInfor = res.data.Doctor_Infor;
-            const { arrPrices, arrPayments, arrProvinces, arrSpecialties } = this.state;
+            const { arrPrices, arrPayments, arrProvinces, arrSpecialties, arrClinics } = this.state;
             this.setState({
                contentHTML: markdown.contentHTML,
                contentMarkdown: markdown.contentMarkdown,
@@ -216,6 +230,7 @@ class TableManageUsers extends Component {
                addressClinic: doctorInfor.addressClinic,
                note: doctorInfor.note,
                selectedSpecialty: this.showLabelAvailabel(arrSpecialties, doctorInfor.specialtyId),
+               selectedClinic: this.showLabelAvailabel(arrClinics, doctorInfor.clinicId)
             })
          } else {
             this.setState({
@@ -247,7 +262,7 @@ class TableManageUsers extends Component {
       let { selectedOption, description, arrDoctors, contentMarkdown, hasOldData } = this.state;
       let { arrPrices, arrPayments, arrProvinces,
          selectedPrice, selectedPayment, selectedProvince,
-         nameClinic, addressClinic, note, selectedSpecialty, arrSpecialties } = this.state;
+         nameClinic, addressClinic, note, selectedSpecialty, arrSpecialties, selectedClinic, arrClinics } = this.state;
       return (
          <div className="manage-doctor-container container">
             <div className="manage-doctor-title">
@@ -361,17 +376,16 @@ class TableManageUsers extends Component {
                      placeholder={<FormattedMessage id="admin.manage-doctor.specialty" />}
                   />
                </div>
-               <div className="col-4">
+               <div className="col-6">
                   <label>
-                     {/* <FormattedMessage id="admin.manage-doctor.payment" /> */}
-                     Phòng khám
+                     <FormattedMessage id="admin.manage-doctor.clinic" />
                   </label>
                   <Select
-                     value={'selectedClinic'}
+                     value={selectedClinic}
                      onChange={this.handleChangeSelect}
-                     // options={arrClinics}
+                     options={arrClinics}
                      name='selectedClinic'
-                  // placeholder={<FormattedMessage id="admin.manage-doctor.payment" />}
+                     placeholder={<FormattedMessage id="admin.manage-doctor.clinic" />}
                   />
                </div>
             </div>

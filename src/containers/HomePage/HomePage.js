@@ -24,7 +24,7 @@ class HomePage extends Component {
             <HomeHeader />
             <Sections.Banner />
             <Sections.Specialty settings={settings} />
-            {/* <Sections.MedicalFacility settings={settings} /> */}
+            <Sections.MedicalFacility settings={settings} />
             <Sections.OutstandingDoctor settings={settings} />
             {/* <Sections.Handbook settings={settings} /> */}
             <Sections.About />

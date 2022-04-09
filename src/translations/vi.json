@@ -116,6 +116,7 @@
             "address-clinic":"Địa chỉ phòng khám",
             "note":"Ghi chú",
             "specialty":"Chuyên khoa",
+            "clinic":"Phòng khám",
             "update":"Cập nhật thông tin",
             "create":"Tạo thông tin"
         }

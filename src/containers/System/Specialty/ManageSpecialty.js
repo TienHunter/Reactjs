@@ -8,9 +8,8 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getAllcodeService } from '../../../services/userService'
 import { CommonUtils, LANGUAGES } from '../../../utils'
-import { createNewSpecialty } from '../../../services/userService'
+import { createNewSpecialty, getIntroSpecialty, getAllcodeService } from '../../../services/userService'
 import './ManageSpecialty.scss'
 
 
@@ -99,7 +98,6 @@ class ManageSpecialty extends Component {
    }
    handleSaveSpecialty = async () => {
       let { selectedSpecialty, descriptionHTML, descriptionMarkdown, image } = this.state;
-      console.log();
       let specialtyId = selectedSpecialty.value;
       let res = await createNewSpecialty({
          specialtyId,
@@ -108,8 +106,7 @@ class ManageSpecialty extends Component {
          image
       })
       if (res && res.errCode === 0) {
-         toast.success('Create new specialty success');
-         console.log('check save:', res.data);
+         toast.success('Create or update new specialty success');
          this.setState({
             selectedSpecialty: null,
             descriptionMarkdown: '',
@@ -128,7 +125,26 @@ class ManageSpecialty extends Component {
       })
    }
    handleChangeSelect = async (selectedOption) => {
-      this.setState({ selectedSpecialty: selectedOption })
+      this.setState({ selectedSpecialty: selectedOption });
+      let res = await getIntroSpecialty(selectedOption.value)
+      if (res && res.errCode === 0 && res.data) {
+         let data = res.data;
+         let { image } = this.state;
+         // let objectURL = URL.createObjectURL(image)
+         this.setState({
+            descriptionMarkdown: data.descriptionMarkdown,
+            descriptionHTML: data.descriptionHTML,
+            image: data.image,
+            previewImage: data.image
+         })
+      } else {
+         this.setState({
+            descriptionMarkdown: "",
+            descriptionHTML: "",
+            image: "",
+            previewImage: ""
+         })
+      }
    };
    render() {
       let { selectedSpecialty, arrSpecialties, descriptionHTML, descriptionMarkdown, image, previewImage, isOpenPreviewImage } = this.state;

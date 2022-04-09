@@ -117,6 +117,7 @@
             "address-clinic":"Address clinic",
             "note":"Note",
             "specialty":"Specialty",
+            "clinic":"Clinic",
             "update":"Update information",
             "create":"Create information"
         }
