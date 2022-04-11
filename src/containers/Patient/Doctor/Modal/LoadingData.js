@@ -16,7 +16,7 @@ class LoadingData extends Component {
       console.log('check loading data');
       return (
          <div className="loading-data-container">
-            <div class="loading__ring"></div>
+            <div className="loading__ring"></div>
             <span className="loading__text">Loading...</span>
          </div>
       );

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router'
 import { LANGUAGES } from '../../../utils'
 import * as actions from '../../../store/actions'
-
+import _ from "lodash"
 class OutstandingDoctor extends Component {
    constructor(props) {
       super(props);
@@ -44,9 +44,16 @@ class OutstandingDoctor extends Component {
                <div className="section-body">
                   <Slider {...this.props.settings}>
                      {arrDoctors && arrDoctors.length > 0 && arrDoctors.map((item, index) => {
+                        let specialty = "";
+                        let nameSpecialty = "";
+                        if (item.Doctor_Infors && item.Doctor_Infors.specialtyData) {
+                           specialty = item.Doctor_Infors.specialtyData
+                           console.log(specialty);
+                           nameSpecialty = language === LANGUAGES.VI ? (specialty.valueVi ? specialty.valueVi : "no data") : (specialty.valueEn ? specialty.valueEn : "no data")
+                        }
                         let imageBase64 = '';
                         if (item.image) {
-                           imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                           imageBase64 = Buffer.from(item.image, 'base64').toString('binary');
                         }
                         let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`
                         let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`
@@ -58,7 +65,7 @@ class OutstandingDoctor extends Component {
                                     style={{ backgroundImage: `url(${imageBase64})` }}
                                  />
                                  <h5 className="doctor-name">{language === LANGUAGES.VI ? nameVi : nameEn}</h5>
-                                 <p className="specialty-doctor"> Thàn kinh</p>
+                                 <p className="specialty-doctor">{nameSpecialty}</p>
                               </div>
                            </div>
                         )

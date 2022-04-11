@@ -40,7 +40,8 @@
             "manage-handbook":"Quản lý cẩm nang"
         },
         "doctor":{
-            "manage-schedule":"Quản lý kế hoạch khám bệnh"
+            "manage-schedule":"Quản lý kế hoạch khám bệnh",
+            "manage-patients":"Quản lý bệnh nhân khám bệnh"
         }
     },
     "manage-user":{
@@ -63,13 +64,28 @@
     "homepage":{
         "more-infor":"Xem thêm",
         "outstanding-doctor":"Bác sĩ nổi bật tuần qua",
-        "popular-specialty":"Chuyên khoa phổ biến"
+        "popular-specialty":"Chuyên khoa phổ biến",
+        "medical-facility":"Cơ sở y tế nổi bật"
     },
     "manage-schedule": {
         "title":"Quản lý lịch khám bệnh của bác sỹ",
         "choose-doctor":"Chọn bác sỹ",
         "choose-date":"Chọn ngày khám",
         "save":"Lưu cài đặt"
+    },
+    "manage-patient": {
+        "title":"Quản lý kế hoạch khám bệnh",
+        "choose-date":"Chọn ngày",
+        "save":"Save",
+        "no-data":"Không có lịch hẹn",
+        "id":"STT",
+        "name":"Tên bệnh nhân",
+        "time":"Thời gian khám",
+        "address":"Đại chỉ",
+        "email":"Email",
+        "gender":"Giới tính",
+        "action":"Hành động",
+        "confirm":"Xác nhận"
     },
     "patient": {
         "detail-doctor":{

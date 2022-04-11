@@ -1,0 +1,33 @@
+.manage-patients-container {
+   .manage-patients__title {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      color: darkcyan;
+   }
+   .manage-patients__data {
+      margin-bottom: 12px;
+      .select-name {
+         padding-bottom: 8px;
+      }
+   }
+   .no-data {
+      text-align: center;
+   }
+   .manage-patient__btn-confirm {
+      outline: none;
+      border: none;
+      padding: 4px 12px;
+      background: orange;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      transition: ease-in-out .2s;
+      &:hover {
+         background-color:orangered;
+         color: #000;
+      }
+   }
+}
